@@ -1,1 +1,1 @@
-loadstring(.HttpGet(game, "https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/Premium_menu_99_night"))();￼Enter
+loadstring(game.httpget(https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/Premium_menu_99_night))()
