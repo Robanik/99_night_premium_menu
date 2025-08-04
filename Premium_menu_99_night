@@ -558,6 +558,108 @@ end
    end,
 })
 
+local Section = Tab:CreateSection("kill animals")
+
+local Button = Tab:CreateButton({
+   Name = "tp childs",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "LostChildTPGui"
+gui.ResetOnSpawn = false
+
+local selectedName = nil
+
+local buttonNames = {
+	"Lost Child",
+	"Lost Child 2",
+	"Lost Child 3",
+	"Lost Child 4"
+}
+
+-- Функция отображения надписи
+local function showMessage(text, duration)
+	local label = Instance.new("TextLabel", gui)
+	label.Size = UDim2.new(1, 0, 0.2, 0)
+	label.Position = UDim2.new(0, 0, 0.4, 0)
+	label.Text = text
+	label.TextScaled = true
+	label.BackgroundTransparency = 1
+	label.TextColor3 = Color3.new(1, 0, 0)
+	task.delay(duration, function()
+		if label then label:Destroy() end
+	end)
+end
+
+-- Функция телепорта
+local function teleportTo(name)
+	local char = player.Character or player.CharacterAdded:Wait()
+	local root = char:WaitForChild("HumanoidRootPart")
+	local chars = workspace:FindFirstChild("Characters")
+
+	if chars and chars:FindFirstChild(name) and chars[name]:FindFirstChild("Torso") then
+		root.CFrame = chars[name].Torso.CFrame + Vector3.new(0, 5, 0)
+	else
+		showMessage("Не найдено", 2)
+	end
+
+	-- Закрыть GUI после попытки телепорта
+	task.delay(0.1, function()
+		gui:Destroy()
+	end)
+end
+
+-- Кнопки выбора Lost Child
+for i, name in ipairs(buttonNames) do
+	local btn = Instance.new("TextButton", gui)
+	btn.Size = UDim2.new(0.2, 0, 0.08, 0)
+	btn.Position = UDim2.new(0.1, 0, 0.1 + (i - 1) * 0.1, 0)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	btn.TextColor3 = Color3.new(1, 1, 1)
+	btn.TextScaled = true
+	btn.BorderSizePixel = 0
+	btn.AutoButtonColor = true
+
+	btn.MouseButton1Click:Connect(function()
+		selectedName = name
+		showMessage("Выбран: " .. name, 1)
+	end)
+end
+
+-- Кнопка "ТП"
+local tpBtn = Instance.new("TextButton", gui)
+tpBtn.Size = UDim2.new(0.6, 0, 0.1, 0)
+tpBtn.Position = UDim2.new(0.2, 0, 0.6, 0)
+tpBtn.Text = "ТП к выбранному"
+tpBtn.BackgroundColor3 = Color3.fromRGB(30, 130, 30)
+tpBtn.TextColor3 = Color3.new(1, 1, 1)
+tpBtn.TextScaled = true
+tpBtn.BorderSizePixel = 0
+tpBtn.AutoButtonColor = true
+
+tpBtn.MouseButton1Click:Connect(function()
+	if selectedName then
+		teleportTo(selectedName)
+	else
+		showMessage("Выберите цель", 2)
+
+		-- Также закрыть GUI, если не выбрано
+		task.delay(0.1, function()
+			gui:Destroy()
+		end)
+	end
+end)
+
+-- Если появился "теракт" или "Гут" — тоже закрываем GUI
+workspace:WaitForChild("Characters").ChildAdded:Connect(function(child)
+	if child.Name == "теракт" or child.Name == "Гут" then
+		gui:Destroy()
+	end
+end)
+   end,
+})
+
 local Tab = Window:CreateTab("information", "rewind")
 local Section = Tab:CreateSection("pelt trader, deer")
 
