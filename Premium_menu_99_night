@@ -15,7 +15,7 @@ local Window = Rayfield:CreateWindow({
 
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = RRFold, -- Create a custom folder for your hub/game
+      FolderName = "RRFold", -- Create a custom folder for your hub/game
       FileName = "RRcheat"
    },
 
@@ -37,8 +37,8 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local Tab = Window:CreateTab("kill animals", "rewind")
-local Section = Tab:CreateSection("kill animals")
+local Tab = Window:CreateTab("player", "rewind")
+local Section = Tab:CreateSection("player")
 
 local Button = Tab:CreateButton({
    Name = "god mode (beta)",
@@ -570,52 +570,6 @@ local StarterGui = game:GetService("StarterGui")
 
 -- Функция для отображения текста
 local function showMessage(text, duration)
-    StarterGui:SetCore("ChatMakeSystemMessage", {
-        Text = text;
-        Color = Color3.new(0, 0, 0); -- Черный цвет
-        Font = Enum.Font.SourceSansBold;
-        FontSize = Enum.FontSize.Size24;
-    })
-    
-    task.wait(duration)
-
-    -- Очистка сообщения (по желанию, так как системные сообщения нельзя удалить напрямую)
-end
-
--- Отслеживание появления персонажа Pelt Trader
-local function checkForPeltTrader()
-    local characters = game:GetService("Workspace"):WaitForChild("Characters")
-
-    characters.ChildAdded:Connect(function(child)
-        if child.Name == "Pelt Trader" then
-            local hrp = child:WaitForChild("HumanoidRootPart", 5)
-            if hrp then
-                showMessage("Pelt Trader пришел", 2)
-            end
-        end
-    end)
-end
-
-checkForPeltTrader()
-   end,
-})
-
-local Button = Tab:CreateButton({
-   Name = "deer",
-   Callback = function()
-   local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
-local function showCenterText(text, duration)
-    local gui = Instance.new("ScreenGui", playerGui)
-    gui.Name = "DeerMessage"
-
-    local label = Instance.new("TextLabel", gui)
-    label.Size = UDim2.new(1, 0, 0, 50)
-    label.Position = UDim2.new(0, 0, 0.45, 0)
-    label.Text = text
-    local function showMessage(text, duration)
     StarterGui:SetCore("ChatMakeSystemMessage", {
         Text = text;
         Color = Color3.new(0, 0, 0); -- Черный цвет
