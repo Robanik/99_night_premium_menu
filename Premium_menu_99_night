@@ -508,7 +508,33 @@ teleportToObjectAndBack()
 local Button = Tab:CreateButton({
    Name = "coal",
    Callback = function()
-   -- The function that takes place when the button is pressed
+   local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local targetPart = Workspace.Items.Coal.Coal
+
+local function teleportToCoalAndBack()
+    -- Сохраняем начальную позицию игрока
+    local startPosition = humanoidRootPart.CFrame
+
+    -- Телепортируем игрока к объекту (чуть выше)
+    humanoidRootPart.CFrame = targetPart.CFrame * CFrame.new(0, 3, 0)
+    wait(1)
+
+    -- Возвращаем игрока обратно
+    humanoidRootPart.CFrame = startPosition
+    wait(0.5)
+
+    -- Перемещаем объект немного вперед от игрока (3 единицы вперед по направлению взгляда)
+    local forwardVector = humanoidRootPart.CFrame.LookVector
+    targetPart.CFrame = humanoidRootPart.CFrame * CFrame.new(forwardVector * 3)
+end
+
+teleportToCoalAndBack()
    end,
 })
 
