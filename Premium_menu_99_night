@@ -572,14 +572,40 @@ teleportToOldRadioAndBack()
 })
 
 local Button = Tab:CreateButton({
-   Name = "Button Example",
+   Name = "fuel canister",
    Callback = function()
-   -- The function that takes place when the button is pressed
+   local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local targetPart = Workspace.Items["Fuel Canister"].Main
+
+local function teleportToFuelCanisterAndBack()
+    -- Сохраняем стартовую позицию игрока
+    local startPosition = humanoidRootPart.CFrame
+
+    -- Телепортируем к объекту (чуть выше)
+    humanoidRootPart.CFrame = targetPart.CFrame * CFrame.new(0, 3, 0)
+    wait(1)
+
+    -- Возвращаемся обратно
+    humanoidRootPart.CFrame = startPosition
+    wait(0.5)
+
+    -- Перемещаем объект чуть вперед от игрока (3 единицы вперед по направлению взгляда)
+    local forwardVector = humanoidRootPart.CFrame.LookVector
+    targetPart.CFrame = humanoidRootPart.CFrame * CFrame.new(forwardVector * 3)
+end
+
+teleportToFuelCanisterAndBack()
    end,
 })
 
 local Button = Tab:CreateButton({
-   Name = "Button Example",
+   Name = "flashlight",
    Callback = function()
    -- The function that takes place when the button is pressed
    end,
