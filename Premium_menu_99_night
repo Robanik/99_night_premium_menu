@@ -477,50 +477,38 @@ local Button = Tab:CreateButton({
    Name = "log",
    Callback = function()
    local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local logPath = game:GetService("Workspace"):WaitForChild("Items"):WaitForChild("Log")
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
--- Функция для телепортации объекта к персонажу
-local function teleportToCharacter(object)
-	if character and character:FindFirstChild("HumanoidRootPart") then
-		object.CFrame = character.HumanoidRootPart.CFrame + Vector3.new(0, 2, 0)
-	end
+local targetPart = Workspace.Items.Log.Meshes.log_Cylinder
+
+local function teleportToObjectAndBack()
+    -- Сохраняем начальную позицию игрока
+    local startPosition = humanoidRootPart.CFrame
+
+    -- Телепортируем игрока к объекту (немного выше, чтобы не застрять)
+    humanoidRootPart.CFrame = targetPart.CFrame * CFrame.new(0, 3, 0)
+    wait(1)  -- Ждем секунду, чтобы "увидеть" телепорт
+
+    -- Возвращаем игрока обратно
+    humanoidRootPart.CFrame = startPosition
+    wait(0.5)
+
+    -- Перемещаем объект чуть вперед от игрока (например, 3 единицы вперед по направлению взгляда)
+    local forwardVector = humanoidRootPart.CFrame.LookVector
+    targetPart.CFrame = humanoidRootPart.CFrame * CFrame.new(forwardVector * 3)
 end
 
--- Проверка и подключение к появлению объекта
-local function watchForLogMesh()
-	local mesh = logPath:FindFirstChild("Meshes/log_Cylinder")
-	if mesh then
-		-- Если объект уже существует и видим
-		if mesh:IsA("BasePart") and mesh:IsDescendantOf(game.Workspace) and mesh.Transparency < 1 then
-			teleportToCharacter(mesh)
-		end
+teleportToObjectAndBack()
+})
 
-		-- Подключаемся к изменению прозрачности (если становится видимым)
-		mesh:GetPropertyChangedSignal("Transparency"):Connect(function()
-			if mesh.Transparency < 1 then
-				teleportToCharacter(mesh)
-			end
-		end)
-	else
-		-- Если объекта ещё нет — ждать появления
-		logPath.ChildAdded:Connect(function(child)
-			if child.Name == "Meshes/log_Cylinder" then
-				teleportToCharacter(child)
-				
-				-- Также следить за изменением прозрачности
-				child:GetPropertyChangedSignal("Transparency"):Connect(function()
-					if child.Transparency < 1 then
-						teleportToCharacter(child)
-					end
-				end)
-			end
-		end)
-	end
-end
-
-watchForLogMesh()
+local Button = Tab:CreateButton({
+   Name = "coal",
+   Callback = function()
+   -- The function that takes place when the button is pressed
    end,
 })
 
