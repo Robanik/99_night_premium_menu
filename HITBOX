@@ -1,0 +1,77 @@
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+
+local charsFolder = Workspace:WaitForChild("Characters")
+local hitboxes = {}
+
+-- у каких мобов какие части брать для центра
+local importantParts = {
+    Bunny = "HumanoidRootPart",
+    Wolf = "HumanoidRootPart",
+    ["Crossbow Cultist"] = "Torso",
+    Cultist = "HumanoidRootPart"
+}
+
+-- отключаем атаку у оригинальных частей моба
+local function disableMobParts(char)
+    for _, part in ipairs(char:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanTouch = false
+            part.CanQuery = false
+        end
+    end
+end
+
+-- создаём отдельный хитбокс
+local function createHitbox(char)
+    local partName = importantParts[char.Name]
+    if not partName then return end
+
+    local root = char:FindFirstChild(partName)
+    if not (root and root:IsA("BasePart")) then return end
+    if hitboxes[char] then return end
+
+    -- отключаем их оригинальные части (чтобы не били игрока)
+    disableMobParts(char)
+
+    -- создаём новый гигантский хитбокс
+    local hb = Instance.new("Part")
+    hb.Name = char.Name .. "_Hitbox"
+    hb.Size = Vector3.new(1500, 1500, 1500)
+    hb.Anchored = true
+    hb.CanCollide = false
+    hb.Transparency = 1
+    hb.CanQuery = true   -- ты можешь бить хитбокс
+    hb.CanTouch = true   -- твои удары проходят
+    hb.Parent = Workspace
+
+    hitboxes[char] = {root = root, hb = hb}
+
+    -- удаляем хитбокс, если моб исчез
+    char.AncestryChanged:Connect(function(_, parent)
+        if not parent and hitboxes[char] then
+            hitboxes[char].hb:Destroy()
+            hitboxes[char] = nil
+        end
+    end)
+end
+
+-- обновление позиций хитбоксов
+RunService.Heartbeat:Connect(function()
+    for char, data in pairs(hitboxes) do
+        if data.root and data.hb then
+            data.hb.CFrame = data.root.CFrame
+        end
+    end
+end)
+
+-- существующие мобы
+for _, char in ipairs(charsFolder:GetChildren()) do
+    createHitbox(char)
+end
+
+-- новые мобы
+charsFolder.ChildAdded:Connect(function(char)
+    task.wait(0.2)
+    createHitbox(char)
+end)
