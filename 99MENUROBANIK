@@ -981,7 +981,6 @@ tpBtn.MouseButton1Click:Connect(function()
 		showMessage("Цель не выбрана", 2)
 	end
 end)
-end)
 
 ------------------------------------------------
 
