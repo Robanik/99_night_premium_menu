@@ -429,6 +429,7 @@ Players.PlayerAdded:Connect(function(plr)
         createESP(plr)
     end
 end)
+end)
 
 AddButton("Esp", "Deer", function()
 local Workspace = game:GetService("Workspace")
