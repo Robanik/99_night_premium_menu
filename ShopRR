@@ -1,0 +1,10 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local target = game:GetService("Workspace").Characters:FindFirstChild("Pelt Trader")
+
+if target and target:FindFirstChild("HumanoidRootPart") and character:FindFirstChild("HumanoidRootPart") then
+    -- Телепортируем немного выше цели, чтобы не застрять
+    character.HumanoidRootPart.CFrame = target.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+end
