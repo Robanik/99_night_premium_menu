@@ -895,7 +895,7 @@ hrp.CFrame = target.CFrame + Vector3.new(0, 5, 0) -- +5 по Y чтобы не �
 end)
 
 AddButton("Tp", "Shop", function()
-   local Players = game:GetService("Players")
+local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
