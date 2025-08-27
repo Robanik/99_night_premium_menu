@@ -493,61 +493,54 @@ spawn(function()
 end)
 end)
 
-AddButton("Esp", "Bunny", function()
+AddButton("Esp", "Bunny And Wolf", function()
 local Workspace = game:GetService("Workspace")
 
 spawn(function()
     while true do
-        local bunny = Workspace.Characters:FindFirstChild("Bunny")
-        if bunny then
-            local body = bunny:FindFirstChild("Body")
-            if body and not body:FindFirstChild("BunnyESP") then
-                local billboard = Instance.new("BillboardGui")
-                billboard.Name = "BunnyESP"
-                billboard.Adornee = body
-                billboard.Size = UDim2.new(0, 100, 0, 50)
-                billboard.StudsOffset = Vector3.new(0, 2, 0)
-                billboard.AlwaysOnTop = true
-                billboard.Parent = body
+        for _, character in pairs(Workspace.Characters:GetChildren()) do
+            -- Проверка на Bunny
+            if character.Name:find("Bunny") then
+                local body = character:FindFirstChild("Body")
+                if body and not body:FindFirstChild("BunnyESP") then
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "BunnyESP"
+                    billboard.Adornee = body
+                    billboard.Size = UDim2.new(0, 100, 0, 50)
+                    billboard.StudsOffset = Vector3.new(0, 2, 0)
+                    billboard.AlwaysOnTop = true
+                    billboard.Parent = body
 
-                local text = Instance.new("TextLabel")
-                text.Size = UDim2.new(1, 0, 1, 0)
-                text.BackgroundTransparency = 1
-                text.Text = "Bunny"
-                text.TextColor3 = Color3.fromRGB(255, 0, 0)
-                text.TextScaled = true
-                text.Parent = billboard
+                    local text = Instance.new("TextLabel")
+                    text.Size = UDim2.new(1, 0, 1, 0)
+                    text.BackgroundTransparency = 1
+                    text.Text = "Bunny"
+                    text.TextColor3 = Color3.fromRGB(255, 0, 0) -- красный
+                    text.TextScaled = true
+                    text.Parent = billboard
+                end
             end
-        end
-        wait(1)
-    end
-end)
-end)
 
-AddButton("Esp", "Wolf", function()
-local Workspace = game:GetService("Workspace")
+            -- Проверка на Wolf
+            if character.Name:find("Wolf") then
+                local hrp = character:FindFirstChild("HumanoidRootPart")
+                if hrp and not hrp:FindFirstChild("WolfESP") then
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "WolfESP"
+                    billboard.Adornee = hrp
+                    billboard.Size = UDim2.new(0, 100, 0, 50)
+                    billboard.StudsOffset = Vector3.new(0, 2, 0)
+                    billboard.AlwaysOnTop = true
+                    billboard.Parent = hrp
 
-spawn(function()
-    while true do
-        local wolf = Workspace.Characters:FindFirstChild("Wolf")
-        if wolf then
-            local hrp = wolf:FindFirstChild("HumanoidRootPart")
-            if hrp and not hrp:FindFirstChild("WolfESP") then
-                local billboard = Instance.new("BillboardGui")
-                billboard.Name = "WolfESP"
-                billboard.Adornee = hrp
-                billboard.Size = UDim2.new(0, 100, 0, 50)
-                billboard.StudsOffset = Vector3.new(0, 2, 0)
-                billboard.AlwaysOnTop = true
-                billboard.Parent = hrp
-
-                local text = Instance.new("TextLabel")
-                text.Size = UDim2.new(1, 0, 1, 0)
-                text.BackgroundTransparency = 1
-                text.Text = "Wolf"
-                text.TextColor3 = Color3.fromRGB(255, 165, 0) -- оранжевый
-                text.TextScaled = true
-                text.Parent = billboard
+                    local text = Instance.new("TextLabel")
+                    text.Size = UDim2.new(1, 0, 1, 0)
+                    text.BackgroundTransparency = 1
+                    text.Text = "Wolf"
+                    text.TextColor3 = Color3.fromRGB(255, 165, 0) -- оранжевый
+                    text.TextScaled = true
+                    text.Parent = billboard
+                end
             end
         end
         wait(1)
