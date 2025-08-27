@@ -830,57 +830,6 @@ end
 teleportAndCountdown()
 end)
 
-AddButton("FullBright", "FullBright", function()
--- // FULLBRIGHT
--- Автор: твой скриптер 😎
-
-local Lighting = game:GetService("Lighting")
-
-local function enableFullBright()
-    -- Сохраняем старые настройки (на случай отключения)
-    if not Lighting:FindFirstChild("OriginalSettings") then
-        local folder = Instance.new("Folder")
-        folder.Name = "OriginalSettings"
-        folder.Parent = Lighting
-
-        local ambient = Instance.new("Color3Value")
-        ambient.Name = "Ambient"
-        ambient.Value = Lighting.Ambient
-        ambient.Parent = folder
-
-        local brightness = Instance.new("NumberValue")
-        brightness.Name = "Brightness"
-        brightness.Value = Lighting.Brightness
-        brightness.Parent = folder
-
-        local outdoor = Instance.new("Color3Value")
-        outdoor.Name = "OutdoorAmbient"
-        outdoor.Value = Lighting.OutdoorAmbient
-        outdoor.Parent = folder
-    end
-
-    -- Включаем FullBright
-    Lighting.Ambient = Color3.fromRGB(255, 255, 255)
-    Lighting.Brightness = 2
-    Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-end
-
-local function disableFullBright()
-    local folder = Lighting:FindFirstChild("OriginalSettings")
-    if folder then
-        Lighting.Ambient = folder.Ambient.Value
-        Lighting.Brightness = folder.Brightness.Value
-        Lighting.OutdoorAmbient = folder.OutdoorAmbient.Value
-        folder:Destroy()
-    end
-end
-
--- Пример использования
-enableFullBright() -- включить FullBright
--- disableFullBright() -- отключить и вернуть старые настройки
-end)
-end)
-
 ------------------------------------------------
 
 AddButton("Tp", "CampFire", function()
@@ -894,7 +843,6 @@ local target = game:GetService("Workspace").Map.Campground.MainFire.Meshes["log_
 
 -- телепорт
 hrp.CFrame = target.CFrame + Vector3.new(0, 5, 0) -- +5 по Y чтобы не застрял в объекте
-end)
 end)
 
 ------------------------------------------------
