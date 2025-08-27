@@ -278,6 +278,7 @@ end)
 AddTab("Player")
 AddTab("Esp")
 AddTab("Bring")
+AddTab("FullBright")
 AddTab("Tp")
 AddTab("Credit")
 
