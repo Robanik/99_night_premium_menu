@@ -555,3 +555,274 @@ end)
 end)
 
 ------------------------------------------------
+
+AddButton("Bring", "old radio", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+local object = workspace.Items["Old Radio"]:WaitForChild("Main")
+
+local aboveOffset = Vector3.new(0, 50, 0)
+local objectBelowOffset = Vector3.new(0, -20, 0)
+local tweenTime = 0.1
+
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+    teleportPart(HRP, object.Position, tweenTime)
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+    countdown(5)
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "broken fen", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+local object = workspace.Items["Broken Fan"]:WaitForChild("Main")
+
+local aboveOffset = Vector3.new(0, 50, 0)
+local objectBelowOffset = Vector3.new(0, -20, 0)
+local tweenTime = 0.1
+
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+    teleportPart(HRP, object.Position, tweenTime)
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+    countdown(5)
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "Sheet Metal", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+local object = workspace.Items:WaitForChild("Sheet Metal"):WaitForChild("Main")
+
+-- Настройки
+local aboveOffset = Vector3.new(0, 50, 0)  -- игрок выше объекта
+local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
+local tweenTime = 0.1
+
+-- Функция плавного телепорта
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Функция отображения обратного отсчёта на экране
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+-- Основная функция
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+
+    -- 1. Телепорт к объекту
+    teleportPart(HRP, object.Position, tweenTime)
+
+    -- 2. Телепорт выше объекта, объект под игроком
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+
+    -- 3. Обратный отсчёт 5–1
+    countdown(5)
+
+    -- 4. Возврат игрока на исходное место
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+-- Запуск
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "log", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+-- Новый объект
+local object = workspace.Items.Log.Meshes:WaitForChild("log_Cylinder")
+
+-- Настройки
+local aboveOffset = Vector3.new(0, 50, 0)      -- игрок выше объекта
+local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
+local tweenTime = 0.1
+
+-- Функция плавного телепорта
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Функция обратного отсчёта на экране
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+-- Основная функция
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+
+    -- 1. Телепорт к объекту
+    teleportPart(HRP, object.Position, tweenTime)
+
+    -- 2. Телепорт выше объекта, объект под игроком
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+
+    -- 3. Обратный отсчёт 5–1
+    countdown(5)
+
+    -- 4. Возврат игрока на исходное место
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+-- Запуск
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "coal", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+-- Новый объект: Coal
+local object = workspace.Items.Coal:WaitForChild("Coal")
+
+-- Настройки
+local aboveOffset = Vector3.new(0, 50, 0)      -- игрок выше объекта
+local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
+local tweenTime = 0.1
+
+-- Функция плавного телепорта
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Функция обратного отсчёта на экране
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+-- Основная функция
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+
+    -- 1. Телепорт к объекту
+    teleportPart(HRP, object.Position, tweenTime)
+
+    -- 2. Телепорт выше объекта, объект под игроком
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+
+    -- 3. Обратный отсчёт 5–1
+    countdown(5)
+
+    -- 4. Возврат игрока на исходное место
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+-- Запуск
+teleportAndCountdown()
+end)
