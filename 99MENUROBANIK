@@ -832,7 +832,7 @@ end)
 
 ------------------------------------------------
 
-AddButton("Player", "Teleport to Spawn", function()
+AddButton("FullBright", "FullBright", function()
 local Lighting = game:GetService("Lighting")
 
 local function enableFullBright()
