@@ -882,16 +882,11 @@ end)
 ------------------------------------------------
 
 AddButton("Tp", "CampFire", function()
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local hrp = char:WaitForChild("HumanoidRootPart")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/SpawnRR"))()
+end)
 
--- путь к объекту
-local target = game:GetService("Workspace").Map.Campground.MainFire.Meshes["log_Cylinder"]
+AddButton("Tp", "Shop", function()
 
--- телепорт
-hrp.CFrame = target.CFrame + Vector3.new(0, 5, 0) -- +5 по Y чтобы не застрял в объекте
 end)
 
 AddButton("Tp", "Tp Childs", function()
