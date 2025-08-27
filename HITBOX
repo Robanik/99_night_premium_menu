@@ -4,7 +4,7 @@ local RunService = game:GetService("RunService")
 local charsFolder = Workspace:WaitForChild("Characters")
 local hitboxes = {}
 
--- у каких мобов какие части брать для центра
+-- части для мобов
 local importantParts = {
     Bunny = "HumanoidRootPart",
     Wolf = "HumanoidRootPart",
@@ -12,17 +12,7 @@ local importantParts = {
     Cultist = "HumanoidRootPart"
 }
 
--- отключаем атаку у оригинальных частей моба
-local function disableMobParts(char)
-    for _, part in ipairs(char:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.CanTouch = false
-            part.CanQuery = false
-        end
-    end
-end
-
--- создаём отдельный хитбокс
+-- создание отдельного хитбокса
 local function createHitbox(char)
     local partName = importantParts[char.Name]
     if not partName then return end
@@ -31,23 +21,20 @@ local function createHitbox(char)
     if not (root and root:IsA("BasePart")) then return end
     if hitboxes[char] then return end
 
-    -- отключаем их оригинальные части (чтобы не били игрока)
-    disableMobParts(char)
-
-    -- создаём новый гигантский хитбокс
+    -- создаём отдельный хитбокс
     local hb = Instance.new("Part")
     hb.Name = char.Name .. "_Hitbox"
-    hb.Size = Vector3.new(1500, 1500, 1500)
+    hb.Size = Vector3.new(1500, 1500, 1500) -- огромный
     hb.Anchored = true
     hb.CanCollide = false
     hb.Transparency = 1
-    hb.CanQuery = true   -- ты можешь бить хитбокс
-    hb.CanTouch = true   -- твои удары проходят
+    hb.CanQuery = true   -- игрок может попадать по нему
+    hb.CanTouch = true   -- игрок может наносить урон
     hb.Parent = Workspace
 
     hitboxes[char] = {root = root, hb = hb}
 
-    -- удаляем хитбокс, если моб исчез
+    -- если моб удалён → удалить хитбокс
     char.AncestryChanged:Connect(function(_, parent)
         if not parent and hitboxes[char] then
             hitboxes[char].hb:Destroy()
@@ -56,7 +43,7 @@ local function createHitbox(char)
     end)
 end
 
--- обновление позиций хитбоксов
+-- автообновление позиций хитбоксов
 RunService.Heartbeat:Connect(function()
     for char, data in pairs(hitboxes) do
         if data.root and data.hb then
