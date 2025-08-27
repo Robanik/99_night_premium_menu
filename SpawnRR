@@ -1,0 +1,9 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local targetPart = game:GetService("Workspace").Map.Campground.MainFire["Meshes/logseat_Cylinder (1)"]
+
+if targetPart and character:FindFirstChild("HumanoidRootPart") then
+    character.HumanoidRootPart.CFrame = targetPart.CFrame + Vector3.new(0, 5, 0)
+end
