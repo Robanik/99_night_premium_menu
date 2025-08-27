@@ -701,7 +701,7 @@ end
 teleportAndCountdown()
 end)
 
-AddButton("Bring", "log", function()
+AddButton("Bring", "chair", function()
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
@@ -710,24 +710,27 @@ local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local HRP = Character:WaitForChild("HumanoidRootPart")
 
--- Новый объект
-local object = workspace.Items.Log.Meshes:WaitForChild("log_Cylinder")
+-- Объект: Chair.Part
+local object = workspace.Items.Chair:WaitForChild("Part")
 
--- Настройки
 local aboveOffset = Vector3.new(0, 50, 0)      -- игрок выше объекта
 local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
 local tweenTime = 0.1
 
--- Функция плавного телепорта
+-- Плавный телепорт через TweenService
 local function teleportPart(part, position, time)
     if part and part.Parent then
-        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        local tween = TweenService:Create(
+            part,
+            TweenInfo.new(time, Enum.EasingStyle.Linear),
+            {CFrame = CFrame.new(position)}
+        )
         tween:Play()
         tween.Completed:Wait()
     end
 end
 
--- Функция обратного отсчёта на экране
+-- Обратный отсчёт на экране
 local function countdown(seconds)
     for i = seconds, 1, -1 do
         StarterGui:SetCore("SendNotification", {
@@ -746,14 +749,14 @@ local function teleportAndCountdown()
     -- 1. Телепорт к объекту
     teleportPart(HRP, object.Position, tweenTime)
 
-    -- 2. Телепорт выше объекта, объект под игроком
+    -- 2. Игрок выше, объект ниже
     teleportPart(HRP, object.Position + aboveOffset, tweenTime)
     teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
 
-    -- 3. Обратный отсчёт 5–1
+    -- 3. Обратный отсчёт
     countdown(5)
 
-    -- 4. Возврат игрока на исходное место
+    -- 4. Возврат игрока
     teleportPart(HRP, originalPos, tweenTime)
 end
 
