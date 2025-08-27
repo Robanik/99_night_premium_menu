@@ -556,3 +556,415 @@ spawn(function()
 end)
 end)
 
+AddButton("Esp", "Bunny And Wolf", function()
+local Workspace = game:GetService("Workspace")
+
+spawn(function()
+    while true do
+        for _, character in pairs(Workspace.Characters:GetChildren()) do
+            -- Проверка на Bunny
+            if character.Name:find("Bunny") then
+                local body = character:FindFirstChild("Body")
+                if body and not body:FindFirstChild("BunnyESP") then
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "BunnyESP"
+                    billboard.Adornee = body
+                    billboard.Size = UDim2.new(0, 100, 0, 50)
+                    billboard.StudsOffset = Vector3.new(0, 2, 0)
+                    billboard.AlwaysOnTop = true
+                    billboard.Parent = body
+
+                    local text = Instance.new("TextLabel")
+                    text.Size = UDim2.new(1, 0, 1, 0)
+                    text.BackgroundTransparency = 1
+                    text.Text = "Bunny"
+                    text.TextColor3 = Color3.fromRGB(255, 0, 0) -- красный
+                    text.TextScaled = true
+                    text.Parent = billboard
+                end
+            end
+
+            -- Проверка на Wolf
+            if character.Name:find("Wolf") then
+                local hrp = character:FindFirstChild("HumanoidRootPart")
+                if hrp and not hrp:FindFirstChild("WolfESP") then
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "WolfESP"
+                    billboard.Adornee = hrp
+                    billboard.Size = UDim2.new(0, 100, 0, 50)
+                    billboard.StudsOffset = Vector3.new(0, 2, 0)
+                    billboard.AlwaysOnTop = true
+                    billboard.Parent = hrp
+
+                    local text = Instance.new("TextLabel")
+                    text.Size = UDim2.new(1, 0, 1, 0)
+                    text.BackgroundTransparency = 1
+                    text.Text = "Wolf"
+                    text.TextColor3 = Color3.fromRGB(255, 165, 0) -- оранжевый
+                    text.TextScaled = true
+                    text.Parent = billboard
+                end
+            end
+        end
+        wait(1)
+    end
+end)
+end)
+
+------------------------------------------------
+
+AddButton("Hitbox", "Hitbox", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/HITBOX"))()
+end)
+
+------------------------------------------------
+
+AddButton("Bring", "old radio", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+local object = workspace.Items["Old Radio"]:WaitForChild("Main")
+
+local aboveOffset = Vector3.new(0, 50, 0)
+local objectBelowOffset = Vector3.new(0, -20, 0)
+local tweenTime = 0.1
+
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+    teleportPart(HRP, object.Position, tweenTime)
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+    countdown(5)
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "broken fen", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+local object = workspace.Items["Broken Fan"]:WaitForChild("Main")
+
+local aboveOffset = Vector3.new(0, 50, 0)
+local objectBelowOffset = Vector3.new(0, -20, 0)
+local tweenTime = 0.1
+
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+    teleportPart(HRP, object.Position, tweenTime)
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+    countdown(5)
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "old microwave", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+-- Объект: Broken Microwave
+local object = workspace.Items["Broken Microwave"]:WaitForChild("Main")
+
+local aboveOffset = Vector3.new(0, 50, 0)       -- игрок выше объекта
+local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
+local tweenTime = 0.1
+
+-- Плавный телепорт
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(
+            part,
+            TweenInfo.new(time, Enum.EasingStyle.Linear),
+            {CFrame = CFrame.new(position)}
+        )
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Обратный отсчёт
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+-- Основная функция
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+
+    -- 1. Телепорт к объекту
+    teleportPart(HRP, object.Position, tweenTime)
+
+    -- 2. Поднятие игрока, объект ниже
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+
+    -- 3. Отсчёт 5..1
+    countdown(5)
+
+    -- 4. Возврат игрока
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+-- Запуск
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "chair", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+-- Объект: Chair.Part
+local object = workspace.Items.Chair:WaitForChild("Part")
+
+local aboveOffset = Vector3.new(0, 50, 0)      -- игрок выше объекта
+local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
+local tweenTime = 0.1
+
+-- Плавный телепорт через TweenService
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(
+            part,
+            TweenInfo.new(time, Enum.EasingStyle.Linear),
+            {CFrame = CFrame.new(position)}
+        )
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Обратный отсчёт на экране
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+-- Основная функция
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+
+    -- 1. Телепорт к объекту
+    teleportPart(HRP, object.Position, tweenTime)
+
+    -- 2. Игрок выше, объект ниже
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+
+    -- 3. Обратный отсчёт
+    countdown(5)
+
+    -- 4. Возврат игрока
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+-- Запуск
+teleportAndCountdown()
+end)
+
+AddButton("Bring", "coal", function()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+-- Новый объект: Coal
+local object = workspace.Items.Coal:WaitForChild("Coal")
+
+-- Настройки
+local aboveOffset = Vector3.new(0, 50, 0)      -- игрок выше объекта
+local objectBelowOffset = Vector3.new(0, -20, 0) -- объект ниже игрока
+local tweenTime = 0.1
+
+-- Функция плавного телепорта
+local function teleportPart(part, position, time)
+    if part and part.Parent then
+        local tween = TweenService:Create(part, TweenInfo.new(time, Enum.EasingStyle.Linear), {CFrame = CFrame.new(position)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Функция обратного отсчёта на экране
+local function countdown(seconds)
+    for i = seconds, 1, -1 do
+        StarterGui:SetCore("SendNotification", {
+            Title = "Время на сбор объекта",
+            Text = tostring(i),
+            Duration = 1
+        })
+        wait(1)
+    end
+end
+
+-- Основная функция
+local function teleportAndCountdown()
+    local originalPos = HRP.Position
+
+    -- 1. Телепорт к объекту
+    teleportPart(HRP, object.Position, tweenTime)
+
+    -- 2. Телепорт выше объекта, объект под игроком
+    teleportPart(HRP, object.Position + aboveOffset, tweenTime)
+    teleportPart(object, HRP.Position + objectBelowOffset, tweenTime)
+
+    -- 3. Обратный отсчёт 5–1
+    countdown(5)
+
+    -- 4. Возврат игрока на исходное место
+    teleportPart(HRP, originalPos, tweenTime)
+end
+
+-- Запуск
+teleportAndCountdown()
+end)
+
+------------------------------------------------
+
+AddButton("FullBright", "FullBright", function()
+local Lighting = game:GetService("Lighting")
+
+local function enableFullBright()
+    -- Сохраняем старые настройки (на случай отключения)
+    if not Lighting:FindFirstChild("OriginalSettings") then
+        local folder = Instance.new("Folder")
+        folder.Name = "OriginalSettings"
+        folder.Parent = Lighting
+
+        local ambient = Instance.new("Color3Value")
+        ambient.Name = "Ambient"
+        ambient.Value = Lighting.Ambient
+        ambient.Parent = folder
+
+        local brightness = Instance.new("NumberValue")
+        brightness.Name = "Brightness"
+        brightness.Value = Lighting.Brightness
+        brightness.Parent = folder
+
+        local outdoor = Instance.new("Color3Value")
+        outdoor.Name = "OutdoorAmbient"
+        outdoor.Value = Lighting.OutdoorAmbient
+        outdoor.Parent = folder
+    end
+
+    -- Включаем FullBright
+    Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+    Lighting.Brightness = 2
+    Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+end
+
+local function disableFullBright()
+    local folder = Lighting:FindFirstChild("OriginalSettings")
+    if folder then
+        Lighting.Ambient = folder.Ambient.Value
+        Lighting.Brightness = folder.Brightness.Value
+        Lighting.OutdoorAmbient = folder.OutdoorAmbient.Value
+        folder:Destroy()
+    end
+end
+
+-- Пример использования
+enableFullBright() -- включить FullBright
+-- disableFullBright() -- отключить и вернуть старые настройки
+end)
+
+------------------------------------------------
+
+AddButton("Tp", "CampFire", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/SpawnRR"))()
+end)
+
+AddButton("Tp", "Shop", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/ShopRR"))()
+end)
+
+AddButton("Tp", "Tp Childs", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/Tp%20childs"))()
+end)
+
+------------------------------------------------
+
+AddButton("Credit", "CREDIT", function()
+end)
+
+AddButton("Credit", "ROBANIK", function()
+end)
+end)
