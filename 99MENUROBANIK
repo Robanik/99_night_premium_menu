@@ -277,6 +277,7 @@ end)
 -- 📌 Пример вкладок
 AddTab("Player")
 AddTab("Esp")
+AddTab("Hitbox")
 AddTab("Bring")
 AddTab("FullBright")
 AddTab("Tp")
@@ -548,6 +549,12 @@ spawn(function()
         wait(1)
     end
 end)
+end)
+
+------------------------------------------------
+
+AddButton("Hitbox", "Hitbox", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/HITBOX"))()
 end)
 
 ------------------------------------------------
