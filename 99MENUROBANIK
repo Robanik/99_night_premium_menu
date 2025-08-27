@@ -894,6 +894,10 @@ local target = game:GetService("Workspace").Map.Campground.MainFire.Meshes["log_
 hrp.CFrame = target.CFrame + Vector3.new(0, 5, 0) -- +5 по Y чтобы не застрял в объекте
 end)
 
+AddButton("Tp", "Tp Childs", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/Tp%20childs"))()
+end)
+
 ------------------------------------------------
 
 AddButton("Credit", "CREDIT", function()
