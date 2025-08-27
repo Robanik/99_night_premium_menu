@@ -278,6 +278,7 @@ end)
 AddTab("Player")
 AddTab("Esp")
 AddTab("Bring")
+AddTab("Tp")
 AddTab("Credit")
 
 ------------------------------------------------
@@ -877,6 +878,24 @@ end
 enableFullBright() -- включить FullBright
 -- disableFullBright() -- отключить и вернуть старые настройки
 end)
+end)
+
+------------------------------------------------
+
+AddButton("Tp", "CampFire", function()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+-- путь к объекту
+local target = game:GetService("Workspace").Map.Campground.MainFire.Meshes["log_Cylinder"]
+
+-- телепорт
+hrp.CFrame = target.CFrame + Vector3.new(0, 5, 0) -- +5 по Y чтобы не застрял в объекте
+end)
+
+AddButton("Tp", "Childs", function()
 end)
 
 ------------------------------------------------
