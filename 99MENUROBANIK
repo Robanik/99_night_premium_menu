@@ -886,7 +886,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_prem
 end)
 
 AddButton("Tp", "Shop", function()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Robanik/99_night_premium_menu/refs/heads/main/ShopRR"))()
 end)
 
 AddButton("Tp", "Tp Childs", function()
