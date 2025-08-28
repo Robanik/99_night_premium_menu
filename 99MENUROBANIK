@@ -334,6 +334,30 @@ GetKeyBtn.MouseButton1Click:Connect(function()
     KeyLabel.TextColor3 = Color3.fromRGB(100,255,100)
 end)
 
+-- 📌 Аватар игрока внизу слева
+local PlayerFrame = Instance.new("Frame", MainFrame)
+PlayerFrame.Size = UDim2.new(0,200,0,50)
+PlayerFrame.Position = UDim2.new(0,10,1,-60)
+PlayerFrame.BackgroundTransparency = 1
+
+local Avatar = Instance.new("ImageLabel", PlayerFrame)
+Avatar.Size = UDim2.new(0,40,0,40)
+Avatar.Position = UDim2.new(0,0,0.5,-20)
+Avatar.BackgroundTransparency = 0
+Avatar.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Avatar.Image = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=420&h=420"
+Instance.new("UICorner", Avatar).CornerRadius = UDim.new(1,0)
+
+local NameLabel = Instance.new("TextLabel", PlayerFrame)
+NameLabel.Size = UDim2.new(1,-50,1,0)
+NameLabel.Position = UDim2.new(0,50,0,0)
+NameLabel.BackgroundTransparency = 1
+NameLabel.Font = Enum.Font.GothamBold
+NameLabel.TextSize = 18
+NameLabel.TextColor3 = Color3.fromRGB(255,255,255)
+NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+NameLabel.Text = player.Name
+
 -- 📌 Пример вкладок
 AddTab("Player")
 AddTab("Esp")
