@@ -207,44 +207,84 @@ workspace.DescendantAdded:Connect(function(desc)
     end
 end)
 
--- Auto Tree Farm Logic with timeout
-local badTrees = {}
-
+-- Auto Tree Farm Logic
 task.spawn(function()
     while true do
         if AutoTreeFarmEnabled then
+            local player = game.Players.LocalPlayer
+            local character = player.Character
+            if not character or not character:FindFirstChild("HumanoidRootPart") then
+                task.wait(1.0)
+                continue
+            end
+            local rootPart = character.HumanoidRootPart
             local trees = {}
-            for _, obj in pairs(workspace:GetDescendants()) do
-                if obj.Name == "Trunk" and obj.Parent and obj.Parent.Name == "Small Tree" then
-                    local distance = (obj.Position - ignoreDistanceFrom).Magnitude
-                    if distance > minDistance and not badTrees[obj:GetFullName()] then
-                        table.insert(trees, obj)
+
+            -- Collect all valid trees from Workspace.Map.Foliage and Workspace.Map.Landmarks
+            local map = Workspace.Map
+            for _, folderName in ipairs({"Foliage", "Landmarks"}) do
+                local folder = map:FindFirstChild(folderName)
+                if folder then
+                    for _, smallTree in pairs(folder:GetChildren()) do
+                        if smallTree.Name == "Small Tree" and smallTree:FindFirstChild("Trunk") then
+                            local trunk = smallTree.Trunk
+                            local distance = (trunk.Position - ignoreDistanceFrom).Magnitude
+                            if distance > minDistance then
+                                table.insert(trees, {tree = smallTree, trunk = trunk})
+                            end
+                        end
                     end
                 end
             end
 
-            table.sort(trees, function(a, b)
-                return (a.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <
-                       (b.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-            end)
+            -- Teleport all trees to player with slight offset to avoid overlap
+            for i, treeData in ipairs(trees) do
+                local tree = treeData.tree
+                local trunk = treeData.trunk
+                -- Calculate offset to spread trees around player
+                local angle = (i - 1) * (2 * math.pi / #trees)
+                local offset = CFrame.new(math.cos(angle) * 5, 0, math.sin(angle) * 5)
+                pcall(function()
+                    tree:PivotTo(rootPart.CFrame * offset)
+                end)
+                task.wait(0.05) -- Задержка для предотвращения перегрузки
+            end
 
-            for _, trunk in ipairs(trees) do
-                if not AutoTreeFarmEnabled then break end
-                LocalPlayer.Character:PivotTo(trunk.CFrame + Vector3.new(0, 3, 0))
-                task.wait(0.2)
-                local startTime = tick()
-                while AutoTreeFarmEnabled and trunk and trunk.Parent and trunk.Parent.Name == "Small Tree" do
-                    mouse1click()
-                    task.wait(0.2)
-                    if tick() - startTime > 12 then
-                        badTrees[trunk:GetFullName()] = true
-                        break
+            -- Chop all trees simultaneously
+            if #trees > 0 then
+                while AutoTreeFarmEnabled and #trees > 0 do
+                    for i = #trees, 1, -1 do
+                        local treeData = trees[i]
+                        local tree = treeData.tree
+                        local trunk = treeData.trunk
+                        if tree and tree.Parent and trunk and trunk.Parent and (rootPart.Position - trunk.Position).Magnitude < 20 then
+                            mouse1click()
+                        else
+                            table.remove(trees, i) -- Удаляем несуществующие деревья
+                        end
+                    end
+                    task.wait(0.2) -- Задержка из исходного кода
+                end
+            end
+
+            -- Teleport dropped logs to player
+            local itemsFolder = Workspace:FindFirstChild("Items")
+            if itemsFolder then
+                for _, item in pairs(itemsFolder:GetChildren()) do
+                    if item.Name == "Log" and item:FindFirstChild("Main") then
+                        pcall(function()
+                            item.Main.CFrame = rootPart.CFrame * CFrame.new(0, 5, 0)
+                            local prompt = item:FindFirstChild("ProximityPrompt")
+                            if prompt then
+                                pcall(function() fireproximityprompt(prompt) end)
+                            end
+                        end)
+                        task.wait(0.05) -- Задержка для предотвращения перегрузки
                     end
                 end
-                task.wait(0.3)
             end
         end
-        task.wait(1.5)
+        task.wait(1.5) -- Частота проверки из исходного кода
     end
 end)
 
@@ -684,17 +724,16 @@ AnimTab:CreateButton({
     Callback = function() createHeartAnimation() end
 })
 
--- Auto Tab
-local AutoTab = Window:CreateTab("⚙️Auto⚙️", 4483362458)
-AutoTab:CreateSection("Auto Tree Chopping")
-AutoTab:CreateToggle({
-    Name = "Auto Chop All Trees",
+-- GUI Tab
+local MainTab = Window:CreateTab("farm", 4483362458)
+MainTab:CreateToggle({
+    Name = "Auto Tree Farm (All Trees)",
     CurrentValue = false,
-    Flag = "AutoChop",
-    Callback = function(Value)
-        if Value then startAutoChop() else stopAutoChop() end
+    Callback = function(value)
+        AutoTreeFarmEnabled = value
     end
 })
+MainTab:CreateLabel("Credit: BY ROBANIK")
 
 -- Notify on Script Load
 Rayfield:Notify({
