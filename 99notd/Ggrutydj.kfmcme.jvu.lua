@@ -15,7 +15,6 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- Window Setup
 local Window = Rayfield:CreateWindow({
-local Window = Rayfield:CreateWindow({
    Name = "99 NIGHT IN THE FOREST | BY ROBANIK",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "99 NIGHT IN THE FOREST",
