@@ -21,11 +21,11 @@ local Window = Rayfield:CreateWindow({
    LoadingTitle = "99 NIGHT IN THE FOREST",
    LoadingSubtitle = "BY ROBANIK",
    ShowText = "OPEN", -- for mobile users to unhide rayfield, change if you'd like
-   Theme = "Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+   Theme = "Green", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
 
-   DisableRayfieldPrompts = false,
+   DisableRayfieldPrompts = true,
    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
 
    ConfigurationSaving = {
