@@ -30,9 +30,9 @@ local Window = Rayfield:CreateWindow({
     },
     KeySystem = true, -- Включаем KeySystem
     KeySettings = {
-        Title = "99 Nights Auto Tree Farm | KeySystem",
+        Title = "KeySystem",
         Subtitle = "Enter the key to unlock",
-        Note = "Key: ROBIKSTOP",
+        Note = "https://discord.gg/yrE3aXgtjH",
         FileName = "TreeFarmKey",
         SaveKey = true,
         GrabKeyFromSite = false,
