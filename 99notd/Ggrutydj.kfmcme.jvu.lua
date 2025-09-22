@@ -614,14 +614,6 @@ HomeTab:CreateToggle({
 })
 
 HomeTab:CreateToggle({
-    Name = "Auto Tree Farm (Small Tree)",
-    CurrentValue = false,
-    Callback = function(value)
-        AutoTreeFarmEnabled = value
-    end
-})
-
-HomeTab:CreateToggle({
     Name = "Aimbot (Right Click)",
     CurrentValue = false,
     Callback = function(value)
