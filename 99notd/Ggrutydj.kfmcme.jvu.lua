@@ -750,7 +750,7 @@ MainTab:CreateLabel("Credit: BY ROBANIK")
 -- Notify on Script Load
 Rayfield:Notify({
     Title = "Script Loaded v7",
-    Content = "gptr 1.5 flash v7 ready! Enhanced heart animation, Auto tab with tree chopping.",
+    Content = "ready! | BY ROBANIK",
     Duration = 5,
     Image = 4483362458
 })
