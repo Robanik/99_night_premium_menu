@@ -2,9 +2,6 @@
 -- Created by ROBANIK, enhanced heart animation, added Auto tab for tree chopping
 -- Credit: BY ROBANIK
 
--- Load Rayfield UI Library
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
 -- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -12,6 +9,9 @@ local UserInputService = game:GetService("UserInputService")
 local LocalPlayer = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local Workspace = game:GetService("Workspace")
+
+-- Load Rayfield UI Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- Window Setup
 local Window = Rayfield:CreateWindow({
