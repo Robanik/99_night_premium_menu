@@ -16,8 +16,8 @@ local Workspace = game:GetService("Workspace")
 -- Window Setup
 local Window = Rayfield:CreateWindow({
     Name = "99 Nights Bring Hub",
-    LoadingTitle = "gptr 1.5 flash Edition",
-    LoadingSubtitle = "by ROBANIK",
+    LoadingTitle = "Beta Edition",
+    LoadingSubtitle = "BY ROBANIK",
     ConfigurationSaving = {
         Enabled = true,
         FolderName = "99NightsForest",
