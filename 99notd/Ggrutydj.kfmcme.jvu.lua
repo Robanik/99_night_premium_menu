@@ -478,3 +478,227 @@ local function createHeartAnimation()
     end
     Rayfield:Notify({Title = "Heart Animation Complete", Content = "Formed larger heart with " .. brought .. " items!", Duration = 4, Image = 4483362458})
 end
+
+-- Auto Chop Functions
+local autoChopEnabled = false
+local chopConnection
+local function startAutoChop()
+    if autoChopEnabled then return end
+    autoChopEnabled = true
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local rootPart = character:WaitForChild("HumanoidRootPart")
+    chopConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not autoChopEnabled or not character or not character.Parent then return end
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("ProximityPrompt") and obj.Parent.Name:lower():find("tree") and obj.ActionText:lower():find("chop") then
+                local tree = obj.Parent
+                if (rootPart.Position - tree.Position).Magnitude < 20 then
+                    rootPart.CFrame = tree.CFrame * CFrame.new(0, 0, -5)
+                    wait(0.1)
+                    fireproximityprompt(obj)
+                    wait(0.5)
+                end
+            end
+        end
+    end)
+    Rayfield:Notify({Title = "Auto Chop Started", Content = "Automatically chopping nearby trees!", Duration = 3, Image = 4483362458})
+end
+
+local function stopAutoChop()
+    autoChopEnabled = false
+    if chopConnection then
+        chopConnection:Disconnect()
+        chopConnection = nil
+    end
+    Rayfield:Notify({Title = "Auto Chop Stopped", Content = "Auto tree chopping disabled.", Duration = 3, Image = 4483362458})
+end
+
+-- GUI Tabs
+-- Home Tab (Unchanged from Original)
+local HomeTab = Window:CreateTab("🏠Home🏠", 4483362458)
+
+HomeTab:CreateButton({
+    Name = "Teleport to Campfire",
+    Callback = function()
+        LocalPlayer.Character:PivotTo(CFrame.new(0, 10, 0))
+    end
+})
+
+HomeTab:CreateButton({
+    Name = "Teleport to Grinder",
+    Callback = function()
+        LocalPlayer.Character:PivotTo(CFrame.new(16.1,4,-4.6))
+    end
+})
+
+HomeTab:CreateToggle({
+    Name = "Item ESP",
+    CurrentValue = false,
+    Callback = toggleESP
+})
+
+HomeTab:CreateToggle({
+    Name = "NPC ESP",
+    CurrentValue = false,
+    Callback = function(value)
+        toggleNPCESP(value)
+        Rayfield:Notify({
+            Title = "NPC ESP",
+            Content = value and "NPC ESP Enabled" or "NPC ESP Disabled",
+            Duration = 4,
+            Image = 4483362458,
+        })
+    end
+})
+
+HomeTab:CreateToggle({
+    Name = "Auto Tree Farm (Small Tree)",
+    CurrentValue = false,
+    Callback = function(value)
+        AutoTreeFarmEnabled = value
+    end
+})
+
+HomeTab:CreateToggle({
+    Name = "Aimbot (Right Click)",
+    CurrentValue = false,
+    Callback = function(value)
+        AimbotEnabled = value
+        Rayfield:Notify({
+            Title = "Aimbot",
+            Content = value and "Enabled - Hold Right Click to aim." or "Disabled.",
+            Duration = 4,
+            Image = 4483362458,
+        })
+    end
+})
+
+HomeTab:CreateToggle({
+    Name = "Fly (WASD + Space + Shift)",
+    CurrentValue = false,
+    Callback = function(value)
+        toggleFly(value)
+        Rayfield:Notify({
+            Title = "Fly",
+            Content = value and "Fly Enabled" or "Fly Disabled",
+            Duration = 4,
+            Image = 4483362458,
+        })
+    end
+})
+
+-- Bring Tab
+local BringTab = Window:CreateTab("🧲Bring🧲", 4483362458)
+local Section = BringTab:CreateSection("Select Preset or Custom")
+local SelectedPreset = "Food"
+local PresetDropdown = BringTab:CreateDropdown({
+    Name = "Select Preset",
+    Options = {"Food", "Fish", "Seeds", "Tools", "Weapons", "Armor", "Resources", "Fuel", "Medical", "Blueprints", "Keys", "Junk", "Special"},
+    CurrentOption = {"Food"},
+    Flag = "Preset",
+    Callback = function(Option) SelectedPreset = Option[1] end
+})
+BringTab:CreateButton({
+    Name = "Bring Preset to Player",
+    Callback = function()
+        local selectedItems = presets[SelectedPreset] or {}
+        if #selectedItems > 0 then
+            bringItems(selectedItems)
+        else
+            Rayfield:Notify({Title = "Error", Content = "No items in selected preset!", Duration = 3, Image = 4483362458})
+        end
+    end
+})
+local CustomItems = {}
+BringTab:CreateInput({
+    Name = "Add Custom Item Name",
+    PlaceholderText = "e.g., Berry",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        if Text ~= "" then
+            table.insert(CustomItems, Text)
+            Rayfield:Notify({Title = "Custom Added", Content = "Added: " .. Text, Duration = 2, Image = 4483362458})
+        end
+    end
+})
+BringTab:CreateButton({
+    Name = "Clear Custom Items",
+    Callback = function()
+        CustomItems = {}
+        Rayfield:Notify({Title = "Cleared", Content = "Custom items list cleared!", Duration = 2, Image = 4483362458})
+    end
+})
+BringTab:CreateButton({
+    Name = "Bring Custom Items to Player",
+    Callback = function()
+        if #CustomItems > 0 then
+            bringItems(CustomItems)
+        else
+            Rayfield:Notify({Title = "Error", Content = "No custom items added!", Duration = 3, Image = 4483362458})
+        end
+    end
+})
+BringTab:CreateButton({
+    Name = "Bring ALL Items to Player",
+    Callback = function() bringAllItems() end
+})
+BringTab:CreateButton({
+    Name = "Debug: List Items in Items Folder",
+    Callback = function()
+        local itemsFolder = game:GetService("Workspace"):FindFirstChild("Items")
+        if not itemsFolder then
+            Rayfield:Notify({Title = "Error", Content = "Items folder not found!", Duration = 4, Image = 4483362458})
+            return
+        end
+        local count = 0
+        local itemList = ""
+        for _, item in pairs(itemsFolder:GetChildren()) do
+            if item:FindFirstChild("Main") then
+                count = count + 1
+                itemList = itemList .. item.Name .. ", "
+                if count % 5 == 0 then
+                    Rayfield:Notify({Title = "Items Found", Content = itemList, Duration = 4, Image = 4483362458})
+                    itemList = ""
+                end
+            end
+        end
+        if itemList ~= "" then
+            Rayfield:Notify({Title = "Items Found", Content = itemList, Duration = 4, Image = 4483362458})
+        end
+        if count == 0 then
+            Rayfield:Notify({Title = "Debug", Content = "No items with Main part found in Items folder!", Duration = 4, Image = 4483362458})
+        else
+            Rayfield:Notify({Title = "Debug Complete", Content = "Total items: " .. count, Duration = 3, Image = 4483362458})
+        end
+    end
+})
+BringTab:CreateLabel("Credit: BY ROBANIK")
+
+-- Anim Tab
+local AnimTab = Window:CreateTab("🎨Anim🎨", 4483362458)
+AnimTab:CreateSection("Heart Animation")
+AnimTab:CreateButton({
+    Name = "Create Larger Heart Animation",
+    Callback = function() createHeartAnimation() end
+})
+
+-- Auto Tab
+local AutoTab = Window:CreateTab("⚙️Auto⚙️", 4483362458)
+AutoTab:CreateSection("Auto Tree Chopping")
+AutoTab:CreateToggle({
+    Name = "Auto Chop All Trees",
+    CurrentValue = false,
+    Flag = "AutoChop",
+    Callback = function(Value)
+        if Value then startAutoChop() else stopAutoChop() end
+    end
+})
+
+-- Notify on Script Load
+Rayfield:Notify({
+    Title = "Script Loaded v7",
+    Content = "gptr 1.5 flash v7 ready! Enhanced heart animation, Auto tab with tree chopping.",
+    Duration = 5,
+    Image = 4483362458
+})
