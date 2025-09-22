@@ -1,5 +1,5 @@
---// 99 Nights in the Forest Script with Rayfield GUI v7 //--
--- Created by ROBANIK, enhanced heart animation, added Auto tab for tree chopping
+--// 99 Nights in the Forest Script with Rayfield GUI v1 //-- [BETA]
+-- Created by ROBANIK
 -- Credit: BY ROBANIK
 
 -- Load Rayfield UI Library
@@ -614,7 +614,7 @@ HomeTab:CreateToggle({
 })
 
 HomeTab:CreateToggle({
-    Name = "Aimbot (Right Click)",
+    Name = "Aimbot",
     CurrentValue = false,
     Callback = function(value)
         AimbotEnabled = value
@@ -628,7 +628,7 @@ HomeTab:CreateToggle({
 })
 
 HomeTab:CreateToggle({
-    Name = "Fly (WASD + Space + Shift)",
+    Name = "Fly (no mobile)",
     CurrentValue = false,
     Callback = function(value)
         toggleFly(value)
