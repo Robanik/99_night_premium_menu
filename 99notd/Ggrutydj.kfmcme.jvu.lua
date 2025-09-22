@@ -24,8 +24,8 @@ local Window = Rayfield:CreateWindow({
         FileName = "gptr_bring_v7"
     },
     Discord = {
-        Enabled = false,
-        Invite = "",
+        Enabled = true,
+        Invite = "https://discord.gg/yrE3aXgtjH",
         RememberJoins = true
     },
     KeySystem = false,
