@@ -28,8 +28,17 @@ local Window = Rayfield:CreateWindow({
         Invite = "https://discord.gg/yrE3aXgtjH",
         RememberJoins = true
     },
-    KeySystem = false,
-})
+    KeySystem = true, -- Включаем KeySystem
+    KeySettings = {
+        Title = "99 Nights Auto Tree Farm | KeySystem",
+        Subtitle = "Enter the key to unlock",
+        Note = "Key: ROBIKSTOP",
+        FileName = "TreeFarmKey",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = "ROBIKSTOP" -- Ключ для доступа
+        }
+    })
 
 -- Variables for Original Home Tab
 local teleportTargets = {
