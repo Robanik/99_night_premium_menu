@@ -38,7 +38,7 @@ local Window = Rayfield:CreateWindow({
         GrabKeyFromSite = false,
         Key = "ROBIKSTOP" -- Ключ для доступа
         }
-    })
+    },
 
 -- Variables for Original Home Tab
 local teleportTargets = {
