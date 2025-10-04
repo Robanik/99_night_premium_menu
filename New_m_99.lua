@@ -454,7 +454,7 @@ local function BringAllItems()
         
         -- Other
         "backpack",
-        "map"
+        "map",
         
         --sack
         "Good Sack",
